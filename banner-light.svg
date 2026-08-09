@@ -50,6 +50,11 @@
       <rect id="clip-name-rect" x="0" y="0" width="0" height="60" />
     </clipPath>
 
+    <!-- Circular clip path for hologram avatar -->
+    <clipPath id="holo-circle-clip">
+      <circle cx="180" cy="180" r="170" />
+    </clipPath>
+
     <!-- Code Editor Card Clipping -->
     <clipPath id="clip-code-1"><rect id="code-line-1" x="0" y="0" width="0" height="25" /></clipPath>
     <clipPath id="clip-code-2"><rect id="code-line-2" x="0" y="0" width="0" height="25" /></clipPath>
@@ -481,10 +486,10 @@
       <animateTransform attributeName="transform" type="rotate" from="360 180 180" to="0 180 180" dur="15s" repeatCount="indefinite" />
     </circle>
 
-    <!-- Holographic Avatar Group with Mask -->
-    <g mask="url(#holo-reveal-mask)">
-      <!-- Placeholder Glowing Vector Silhouette -->
-      <g transform="translate(50, 40)">
+    <!-- Holographic Avatar Group with Mask & Circular Clip -->
+    <g mask="url(#holo-reveal-mask)" clip-path="url(#holo-circle-clip)">
+      <!-- Placeholder Glowing Vector Silhouette (visible behind transparent areas) -->
+      <g transform="translate(50, 40)" opacity="0.5">
         <!-- Head -->
         <circle cx="130" cy="90" r="45" fill="#e2def0" stroke="#0288d1" stroke-width="2" stroke-opacity="0.8" />
         <path d="M 115 110 Q 130 115 145 110 Q 140 130 130 130 Q 120 130 115 110 Z" fill="#0288d1" opacity="0.3" />
@@ -498,8 +503,8 @@
         <path d="M 130 160 L 130 220 M 100 200 L 160 200 M 90 230 L 170 230" fill="none" stroke="#d81b60" stroke-width="1" stroke-opacity="0.5" />
       </g>
 
-      <!-- Real Image Overlay - customizable by user -->
-      <image href="assets/rehan-character.png" x="40" y="40" width="280" height="280" opacity="0.9" />
+      <!-- Real Image Overlay - fills circle, crops naturally around face/body -->
+      <image href="assets/rehan-character.png" x="10" y="10" width="340" height="340" preserveAspectRatio="xMidYMid slice" opacity="0.95" />
     </g>
 
     <!-- Scanning line overlay -->

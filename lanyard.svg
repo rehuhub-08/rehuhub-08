@@ -32,6 +32,11 @@
     <clipPath id="badge-clip">
       <rect x="75" y="160" width="250" height="380" rx="16" />
     </clipPath>
+
+    <!-- Clip path for circular lanyard avatar -->
+    <clipPath id="lanyard-avatar-clip">
+      <circle cx="50" cy="50" r="44" />
+    </clipPath>
   </defs>
 
   <style>
@@ -120,9 +125,14 @@
       <g transform="translate(150, 215)">
         <circle cx="50" cy="50" r="44" fill="#05030f" stroke="url(#neon-border)" stroke-width="1.5" />
         
-        <!-- Cybernetic hologram portrait silhouette -->
-        <circle cx="50" cy="42" r="18" fill="#1b123a" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.6" />
-        <path d="M 24 80 Q 30 58 50 58 Q 70 58 76 80 Z" fill="#1b123a" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.6" />
+        <!-- Cybernetic hologram portrait silhouette (visible behind transparent areas) -->
+        <g opacity="0.3">
+          <circle cx="50" cy="42" r="18" fill="#1b123a" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.6" />
+          <path d="M 24 80 Q 30 58 50 58 Q 70 58 76 80 Z" fill="#1b123a" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.6" />
+        </g>
+
+        <!-- Real Image Overlay - crops naturally around face/body -->
+        <image href="assets/rehan-character.png" x="6" y="6" width="88" height="88" clip-path="url(#lanyard-avatar-clip)" preserveAspectRatio="xMidYMid slice" opacity="0.95" />
       </g>
 
       <!-- Badge Info Text -->
