@@ -61,6 +61,7 @@ I'm **Rehan Kaji**, a **Full-Stack Developer** focused on building practical web
       <ul>
         <li>Git / GitHub</li>
         <li>VS Code</li>
+        <li>antigravity</li>
       </ul>
     </td>
     <!-- AI / Automation -->
