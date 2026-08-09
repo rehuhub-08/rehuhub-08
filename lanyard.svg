@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600" fill="none">
+  <defs>
+    <!-- Background glow -->
+    <radialGradient id="lanyard-bg-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1b0e3d" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#05030f" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Neon border gradient -->
+    <linearGradient id="neon-border" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff007f" />
+      <stop offset="50%" stop-color="#8a2be2" />
+      <stop offset="100%" stop-color="#00f0ff" />
+    </linearGradient>
+
+    <!-- Metallic clip gradient -->
+    <linearGradient id="metal-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#757F9A" />
+      <stop offset="50%" stop-color="#D7DDE8" />
+      <stop offset="100%" stop-color="#757F9A" />
+    </linearGradient>
+
+    <!-- Holographic light sweep gradient -->
+    <linearGradient id="holo-sweep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff007f" stop-opacity="0" />
+      <stop offset="30%" stop-color="#ff007f" stop-opacity="0.1" />
+      <stop offset="50%" stop-color="#00f0ff" stop-opacity="0.4" />
+      <stop offset="70%" stop-color="#8a2be2" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0" />
+    </linearGradient>
+
+    <clipPath id="badge-clip">
+      <rect x="75" y="160" width="250" height="380" rx="16" />
+    </clipPath>
+  </defs>
+
+  <style>
+    .mono { font-family: "SF Mono", Consolas, "Fira Code", Monaco, monospace; }
+    .sans { font-family: "Segoe UI", Roboto, -apple-system, sans-serif; }
+
+    /* Lanyard Swing Animations */
+    .swing-group {
+      transform-origin: 200px 0px;
+      animation: drop-swing 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1,
+                 idle-swing 4s ease-in-out infinite 3.5s;
+    }
+
+    @keyframes drop-swing {
+      0% { transform: translateY(-400px) rotate(0deg); }
+      15% { transform: translateY(0) rotate(28deg); }
+      30% { transform: rotate(-20deg); }
+      45% { transform: rotate(14deg); }
+      60% { transform: rotate(-9deg); }
+      75% { transform: rotate(5deg); }
+      90% { transform: rotate(-2deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes idle-swing {
+      0%, 100% { transform: rotate(1deg); }
+      50% { transform: rotate(-1deg); }
+    }
+
+    /* Holographic Shine Sweep */
+    .holo-shine {
+      animation: shine 5s linear infinite;
+    }
+    @keyframes shine {
+      0% { transform: translate(-300px, -300px); }
+      30%, 100% { transform: translate(300px, 300px); }
+    }
+
+    /* LED blink */
+    .led {
+      animation: blink 2s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { fill: #00f0ff; filter: drop-shadow(0 0 2px #00f0ff); }
+      50% { fill: #ff007f; filter: drop-shadow(0 0 2px #ff007f); }
+    }
+  </style>
+
+  <!-- Ambient background glow behind the badge -->
+  <circle cx="200" cy="300" r="180" fill="url(#lanyard-bg-glow)" />
+
+  <!-- SWINGING GROUP -->
+  <g class="swing-group">
+    
+    <!-- 1. Lanyard Strap -->
+    <path d="M 190 0 L 195 100 L 198 135 L 202 135 L 205 100 L 210 0" fill="#1b123a" stroke="#ff007f" stroke-width="1" stroke-opacity="0.5" />
+    <path d="M 195 0 L 198 100 L 200 135 L 202 100 L 205 0" fill="#120b2d" />
+    
+    <!-- 2. Metal Connector Ring & Clip -->
+    <!-- Hook ring -->
+    <circle cx="200" cy="135" r="10" fill="none" stroke="url(#metal-grad)" stroke-width="3" />
+    <!-- Hook Clip body -->
+    <path d="M 194 143 L 206 143 L 203 162 L 197 162 Z" fill="url(#metal-grad)" />
+    <rect x="192" y="157" width="16" height="6" rx="2" fill="#757F9A" />
+
+    <!-- 3. Badge Card Base -->
+    <!-- Outer glass card glow and border -->
+    <rect x="73" y="158" width="254" height="384" rx="18" stroke="url(#neon-border)" stroke-width="2" stroke-opacity="0.8" />
+    <rect x="75" y="160" width="250" height="380" rx="16" fill="#090518" fill-opacity="0.85" />
+    
+    <!-- Inner design with clipping mask (so holographic shine doesn't leak) -->
+    <g clip-path="url(#badge-clip)">
+      
+      <!-- Grid Overlay on card -->
+      <path d="M 75 200 L 325 200 M 75 240 L 325 240 M 75 320 L 325 320 M 75 420 L 325 420" stroke="#1c124c" stroke-width="1" stroke-opacity="0.4" />
+      <path d="M 120 160 L 120 540 M 280 160 L 280 540" stroke="#1c124c" stroke-width="1" stroke-opacity="0.4" />
+
+      <!-- Top Header strip -->
+      <path d="M 75 160 L 325 160 L 325 195 L 75 195 Z" fill="#120b2d" />
+      <text x="200" y="182" class="mono" font-size="11" fill="#8b7cb8" font-weight="bold" text-anchor="middle" letter-spacing="2">SECURE ACCESS</text>
+      
+      <!-- Small LED status light -->
+      <circle cx="95" cy="178" r="3" class="led" />
+
+      <!-- Profile Avatar Frame -->
+      <g transform="translate(150, 215)">
+        <circle cx="50" cy="50" r="44" fill="#05030f" stroke="url(#neon-border)" stroke-width="1.5" />
+        
+        <!-- Cybernetic hologram portrait silhouette -->
+        <circle cx="50" cy="42" r="18" fill="#1b123a" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.6" />
+        <path d="M 24 80 Q 30 58 50 58 Q 70 58 76 80 Z" fill="#1b123a" stroke="#00f0ff" stroke-width="1" stroke-opacity="0.6" />
+      </g>
+
+      <!-- Badge Info Text -->
+      <g transform="translate(200, 340)">
+        <!-- Name -->
+        <text x="0" y="0" class="mono" font-size="20" fill="#ffffff" font-weight="900" text-anchor="middle" letter-spacing="1">REHAN KAJI</text>
+        
+        <!-- Role -->
+        <text x="0" y="22" class="sans" font-size="11" fill="#ff007f" font-weight="bold" text-anchor="middle" letter-spacing="1">FULL-STACK DEVELOPER</text>
+        
+        <!-- ID Number -->
+        <text x="0" y="42" class="mono" font-size="10" fill="#8b7cb8" text-anchor="middle">UID: 08-RH-0809</text>
+      </g>
+
+      <!-- Connection / Barcode -->
+      <g transform="translate(100, 420)">
+        <!-- Barcode lines -->
+        <line x1="0" y1="0" x2="0" y2="35" stroke="#ffffff" stroke-width="3" stroke-opacity="0.8" />
+        <line x1="6" y1="0" x2="6" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="10" y1="0" x2="10" y2="35" stroke="#ffffff" stroke-width="4" stroke-opacity="0.8" />
+        <line x1="18" y1="0" x2="18" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="22" y1="0" x2="22" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="28" y1="0" x2="28" y2="35" stroke="#ffffff" stroke-width="5" stroke-opacity="0.8" />
+        <line x1="36" y1="0" x2="36" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="42" y1="0" x2="42" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="48" y1="0" x2="48" y2="35" stroke="#ffffff" stroke-width="4" stroke-opacity="0.8" />
+        <line x1="56" y1="0" x2="56" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="62" y1="0" x2="62" y2="35" stroke="#ffffff" stroke-width="6" stroke-opacity="0.8" />
+        <line x1="72" y1="0" x2="72" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="76" y1="0" x2="76" y2="35" stroke="#ffffff" stroke-width="3" stroke-opacity="0.8" />
+        <line x1="84" y1="0" x2="84" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="90" y1="0" x2="90" y2="35" stroke="#ffffff" stroke-width="4" stroke-opacity="0.8" />
+        <line x1="98" y1="0" x2="98" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="104" y1="0" x2="104" y2="35" stroke="#ffffff" stroke-width="5" stroke-opacity="0.8" />
+        <line x1="112" y1="0" x2="112" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="118" y1="0" x2="118" y2="35" stroke="#ffffff" stroke-width="3" stroke-opacity="0.8" />
+        <line x1="126" y1="0" x2="126" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="130" y1="0" x2="130" y2="35" stroke="#ffffff" stroke-width="4" stroke-opacity="0.8" />
+        <line x1="138" y1="0" x2="138" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="144" y1="0" x2="144" y2="35" stroke="#ffffff" stroke-width="6" stroke-opacity="0.8" />
+        <line x1="154" y1="0" x2="154" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="158" y1="0" x2="158" y2="35" stroke="#ffffff" stroke-width="3" stroke-opacity="0.8" />
+        <line x1="166" y1="0" x2="166" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="172" y1="0" x2="172" y2="35" stroke="#ffffff" stroke-width="4" stroke-opacity="0.8" />
+        <line x1="180" y1="0" x2="180" y2="35" stroke="#ffffff" stroke-width="1" stroke-opacity="0.8" />
+        <line x1="186" y1="0" x2="186" y2="35" stroke="#ffffff" stroke-width="5" stroke-opacity="0.8" />
+        <line x1="194" y1="0" x2="194" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+        <line x1="200" y1="0" x2="200" y2="35" stroke="#ffffff" stroke-width="2" stroke-opacity="0.8" />
+
+        <!-- Github handle below barcode -->
+        <text x="100" y="55" class="mono" font-size="11" fill="#00f0ff" text-anchor="middle" letter-spacing="1">@rehuhub-08</text>
+      </g>
+
+      <!-- Holographic Shine overlay (sweeps across badge) -->
+      <rect x="0" y="0" width="400" height="600" fill="url(#holo-sweep)" class="holo-shine" pointer-events="none" />
+      
+    </g>
+  </g>
+</svg>
