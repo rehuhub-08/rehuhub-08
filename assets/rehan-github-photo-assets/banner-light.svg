@@ -1,0 +1,519 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 740" width="1280" height="740" fill="none">
+  <defs>
+    <!-- Background grid pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e1dbf7" stroke-width="1" stroke-opacity="0.5" />
+    </pattern>
+
+    <!-- Neon gradient for borders and text -->
+    <linearGradient id="neon-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d81b60" />
+      <stop offset="50%" stop-color="#7b1fa2" />
+      <stop offset="100%" stop-color="#0288d1" />
+    </linearGradient>
+
+    <!-- Hologram accent gradients -->
+    <linearGradient id="holo-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0288d1" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#7b1fa2" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#0288d1" stop-opacity="0" />
+    </linearGradient>
+
+    <radialGradient id="bg-glow" cx="80%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#fdfbff" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#f7f5fa" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#f1edf7" stop-opacity="1" />
+    </radialGradient>
+
+    <!-- Radial glows for ambient effects -->
+    <radialGradient id="cyan-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0288d1" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#0288d1" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="pink-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#d81b60" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#d81b60" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Hologram Mask for Reveal Animation -->
+    <mask id="holo-reveal-mask">
+      <rect x="0" y="0" width="360" height="360" fill="#000" />
+      <rect id="holo-reveal-rect" x="0" y="0" width="360" height="0" fill="#fff" />
+    </mask>
+
+    <clipPath id="clip-whoami">
+      <rect id="clip-whoami-rect" x="0" y="0" width="0" height="40" />
+    </clipPath>
+
+    <clipPath id="clip-name">
+      <rect id="clip-name-rect" x="0" y="0" width="0" height="60" />
+    </clipPath>
+
+    <!-- Code Editor Card Clipping -->
+    <clipPath id="clip-code-1"><rect id="code-line-1" x="0" y="0" width="0" height="25" /></clipPath>
+    <clipPath id="clip-code-2"><rect id="code-line-2" x="0" y="0" width="0" height="25" /></clipPath>
+    <clipPath id="clip-code-3"><rect id="code-line-3" x="0" y="0" width="0" height="25" /></clipPath>
+    <clipPath id="clip-code-4"><rect id="code-line-4" x="0" y="0" width="0" height="25" /></clipPath>
+
+    <!-- Tech pills clip for sequential entry -->
+    <clipPath id="clip-pills"><rect id="pills-rect" x="0" y="0" width="0" height="150" /></clipPath>
+  </defs>
+
+  <style>
+    /* Typography and Font Settings */
+    .mono { font-family: "SF Mono", Consolas, "Fira Code", Monaco, monospace; }
+    .sans { font-family: "Segoe UI", Roboto, -apple-system, sans-serif; }
+    
+    /* Blinking Cursor Animations */
+    .cursor {
+      animation: blink 0.8s step-end infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* Prompt blinking cursor custom offset */
+    #prompt-cursor {
+      animation: blink 0.8s step-end infinite, move-prompt-cursor 2s steps(22) forwards;
+      animation-delay: 0s, 0.5s;
+    }
+    @keyframes move-prompt-cursor {
+      from { x: 200px; }
+      to { x: 425px; }
+    }
+
+    #name-cursor {
+      animation: blink 0.8s step-end infinite, move-name-cursor 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation-delay: 0s, 2.5s;
+      opacity: 0;
+    }
+    @keyframes move-name-cursor {
+      0% { x: 50px; opacity: 1; }
+      100% { x: 420px; opacity: 1; }
+    }
+
+    /* Hologram Scanline Movement */
+    .scan-line {
+      animation: scan 6s linear infinite;
+    }
+    @keyframes scan {
+      0% { transform: translateY(0); opacity: 0; }
+      5% { opacity: 1; }
+      40% { transform: translateY(360px); opacity: 1; }
+      45%, 100% { transform: translateY(360px); opacity: 0; }
+    }
+
+    /* Hologram idle scanner sweep */
+    .idle-scan {
+      animation: idle-sweep 4s ease-in-out infinite;
+    }
+    @keyframes idle-sweep {
+      0%, 100% { transform: translateY(10px); }
+      50% { transform: translateY(350px); }
+    }
+
+    /* Hologram Glitch/Flicker Effect */
+    .holo-glow-container {
+      animation: holo-flicker 5s infinite;
+    }
+    @keyframes holo-flicker {
+      0%, 19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% { opacity: 0.95; filter: hue-rotate(0deg); }
+      20%, 21.9%, 63%, 64.1%, 69.9% { opacity: 0.5; filter: hue-rotate(45deg); }
+    }
+
+    /* Terminal Typing Mask Animations */
+    #clip-whoami-rect {
+      animation: type-whoami 2s steps(22) forwards;
+      animation-delay: 0.5s;
+    }
+    @keyframes type-whoami {
+      to { width: 220px; }
+    }
+
+    #clip-name-rect {
+      animation: type-name 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      animation-delay: 2.5s;
+    }
+    @keyframes type-name {
+      to { width: 370px; }
+    }
+
+    /* Role Cycler Animations */
+    .role-1 { animation: role1 16s infinite; }
+    .role-2 { animation: role2 16s infinite; }
+    .role-3 { animation: role3 16s infinite; }
+    .role-4 { animation: role4 16s infinite; }
+
+    #role-clip-1 { animation: role-type1 16s infinite; }
+    #role-clip-2 { animation: role-type2 16s infinite; }
+    #role-clip-3 { animation: role-type3 16s infinite; }
+    #role-clip-4 { animation: role-type4 16s infinite; }
+
+    @keyframes role1 {
+      0%, 22% { opacity: 1; }
+      23%, 100% { opacity: 0; }
+    }
+    @keyframes role2 {
+      0%, 23% { opacity: 0; }
+      25%, 47% { opacity: 1; }
+      48%, 100% { opacity: 0; }
+    }
+    @keyframes role3 {
+      0%, 48% { opacity: 0; }
+      50%, 72% { opacity: 1; }
+      73%, 100% { opacity: 0; }
+    }
+    @keyframes role4 {
+      0%, 73% { opacity: 0; }
+      75%, 97% { opacity: 1; }
+      98%, 100% { opacity: 0; }
+    }
+
+    @keyframes role-type1 {
+      0% { width: 0; }
+      10%, 20% { width: 300px; }
+      22%, 100% { width: 0; }
+    }
+    @keyframes role-type2 {
+      0%, 25% { width: 0; }
+      35%, 45% { width: 300px; }
+      47%, 100% { width: 0; }
+    }
+    @keyframes role-type3 {
+      0%, 50% { width: 0; }
+      60%, 70% { width: 300px; }
+      72%, 100% { width: 0; }
+    }
+    @keyframes role-type4 {
+      0%, 75% { width: 0; }
+      85%, 95% { width: 300px; }
+      97%, 100% { width: 0; }
+    }
+
+    /* Code Card Typing Cycle (12s total loop) */
+    #code-line-1 { animation: code1 12s infinite; }
+    #code-line-2 { animation: code2 12s infinite; }
+    #code-line-3 { animation: code3 12s infinite; }
+    #code-line-4 { animation: code4 12s infinite; }
+
+    @keyframes code1 {
+      0%, 15% { width: 0; }
+      25%, 90% { width: 350px; }
+      95%, 100% { width: 0; }
+    }
+    @keyframes code2 {
+      0%, 27% { width: 0; }
+      40%, 90% { width: 350px; }
+      95%, 100% { width: 0; }
+    }
+    @keyframes code3 {
+      0%, 42% { width: 0; }
+      60%, 90% { width: 350px; }
+      95%, 100% { width: 0; }
+    }
+    @keyframes code4 {
+      0%, 62% { width: 0; }
+      70%, 90% { width: 350px; }
+      95%, 100% { width: 0; }
+    }
+
+    /* Hologram Initial Reveal Mask height */
+    #holo-reveal-rect {
+      animation: holo-reveal 4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      animation-delay: 1s;
+    }
+    @keyframes holo-reveal {
+      to { height: 360px; }
+    }
+
+    /* Ambient animated elements */
+    .pulse-glow {
+      animation: pulse 4s ease-in-out infinite alternate;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: scale(0.98); }
+      100% { opacity: 0.6; transform: scale(1.02); }
+    }
+
+    .status-pulse {
+      animation: status-blink 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes status-blink {
+      0% { opacity: 0.3; fill: #d81b60; }
+      100% { opacity: 1; fill: #0288d1; }
+    }
+
+    /* Floating particles */
+    .particle {
+      animation: float 8s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.2; }
+      50% { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
+    }
+
+    /* Tech Stack Pills sequential entrance */
+    #pills-rect {
+      animation: reveal-pills 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: 4s;
+    }
+    @keyframes reveal-pills {
+      to { width: 680px; }
+    }
+
+    /* Floating blobs animation */
+    .blob {
+      animation: blob-move 20s infinite alternate;
+    }
+    @keyframes blob-move {
+      0% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(50px, -30px) scale(1.1); }
+      100% { transform: translate(-30px, 40px) scale(0.9); }
+    }
+  </style>
+
+  <!-- BACKGROUND -->
+  <rect width="1280" height="740" fill="url(#bg-glow)" />
+  <rect width="1280" height="740" fill="url(#grid)" />
+
+  <!-- Ambient Glow Blobs -->
+  <circle class="blob pulse-glow" cx="200" cy="150" r="150" fill="url(#cyan-glow)" />
+  <circle class="blob pulse-glow" cx="1000" cy="550" r="220" fill="url(#pink-glow)" style="animation-delay: -5s;" />
+  <circle class="blob pulse-glow" cx="640" cy="370" r="180" fill="url(#pink-glow)" style="animation-delay: -10s;" />
+
+  <!-- OUTER BORDER & LIGHTNING CORNERS -->
+  <rect x="15" y="15" width="1250" height="710" rx="10" stroke="url(#neon-grad)" stroke-width="1.5" stroke-opacity="0.4" />
+  <rect x="12" y="12" width="1256" height="716" rx="12" stroke="#0288d1" stroke-width="1" stroke-opacity="0.1" />
+
+  <!-- ================= LEFT PANEL ================= -->
+
+  <!-- 1. Whoami Prompt -->
+  <g transform="translate(50, 80)">
+    <text x="25" y="25" class="mono" font-size="20" fill="#0288d1" font-weight="bold">rehan@github:~$</text>
+    <g clip-path="url(#clip-whoami)">
+      <text x="200" y="25" class="mono" font-size="20" fill="#1b123a" font-weight="500">whoami</text>
+    </g>
+    <rect id="prompt-cursor" y="8" width="10" height="20" fill="#d81b60" />
+  </g>
+
+  <!-- 2. Developer Name Card -->
+  <g transform="translate(50, 140)">
+    <g clip-path="url(#clip-name)">
+      <text x="50" y="55" class="mono" font-size="64" font-weight="900" fill="url(#neon-grad)" letter-spacing="1">Rehan Kaji</text>
+    </g>
+    <text x="15" y="55" class="mono" font-size="54" fill="#0288d1" font-weight="bold">&gt;</text>
+    <rect id="name-cursor" y="8" width="15" height="50" fill="#0288d1" />
+  </g>
+
+  <!-- 3. Animated Role Cycler -->
+  <g transform="translate(50, 240)">
+    <!-- Base text label -->
+    <text x="50" y="25" class="mono" font-size="24" fill="#665a90" font-weight="500">Role: </text>
+    
+    <!-- Role 1 -->
+    <g class="role-1" opacity="0">
+      <clipPath id="clip-role-1"><rect id="role-clip-1" x="120" y="0" width="0" height="40" /></clipPath>
+      <g clip-path="url(#clip-role-1)">
+        <text x="120" y="25" class="mono" font-size="24" fill="#0288d1" font-weight="bold">Full-Stack Developer</text>
+      </g>
+    </g>
+
+    <!-- Role 2 -->
+    <g class="role-2" opacity="0">
+      <clipPath id="clip-role-2"><rect id="role-clip-2" x="120" y="0" width="0" height="40" /></clipPath>
+      <g clip-path="url(#clip-role-2)">
+        <text x="120" y="25" class="mono" font-size="24" fill="#d81b60" font-weight="bold">Web Developer</text>
+      </g>
+    </g>
+
+    <!-- Role 3 -->
+    <g class="role-3" opacity="0">
+      <clipPath id="clip-role-3"><rect id="role-clip-3" x="120" y="0" width="0" height="40" /></clipPath>
+      <g clip-path="url(#clip-role-3)">
+        <text x="120" y="25" class="mono" font-size="24" fill="#1b123a" font-weight="bold">AI Builder</text>
+      </g>
+    </g>
+
+    <!-- Role 4 -->
+    <g class="role-4" opacity="0">
+      <clipPath id="clip-role-4"><rect id="role-clip-4" x="120" y="0" width="0" height="40" /></clipPath>
+      <g clip-path="url(#clip-role-4)">
+        <text x="120" y="25" class="mono" font-size="24" fill="#7b1fa2" font-weight="bold">Automation Enthusiast</text>
+      </g>
+    </g>
+    
+    <!-- Cursor that blinks at standard spot -->
+    <rect x="420" y="6" width="10" height="22" fill="#0288d1" class="cursor" />
+  </g>
+
+  <!-- 4. Developer Intro -->
+  <g transform="translate(50, 310)">
+    <text x="50" y="25" class="sans" font-size="18" fill="#50486c" font-weight="400" line-height="1.6">
+      Building practical web experiences, automation systems
+    </text>
+    <text x="50" y="55" class="sans" font-size="18" fill="#50486c" font-weight="400">
+      and AI-powered tools.
+    </text>
+  </g>
+
+  <!-- 5. Tagline terminal card -->
+  <g transform="translate(50, 400)">
+    <rect width="450" height="60" rx="8" fill="#f5f3fa" stroke="#d81b60" stroke-width="1" stroke-opacity="0.3" />
+    <path d="M 0 8 A 8 8 0 0 1 8 0 L 442 0 A 8 8 0 0 1 450 8 L 450 15 L 0 15 Z" fill="#e2def0" />
+    <circle cx="15" cy="7" r="4" fill="#ff5f56" />
+    <circle cx="27" cy="7" r="4" fill="#ffbd2e" />
+    <circle cx="39" cy="7" r="4" fill="#27c93f" />
+    <text x="225" y="42" class="mono" font-size="18" fill="#1b123a" font-weight="bold" text-anchor="middle" letter-spacing="1">
+      Build. Break. Learn. Repeat.
+    </text>
+  </g>
+
+  <!-- 6. Technology Pills (Fade/Slide-in clip) -->
+  <g transform="translate(50, 490)" clip-path="url(#clip-pills)">
+    <text x="15" y="20" class="mono" font-size="14" fill="#665a90">SYSTEM_STACK :</text>
+    
+    <!-- HTML Pill -->
+    <g transform="translate(15, 35)">
+      <rect width="60" height="26" rx="13" fill="#f0edf7" stroke="#d81b60" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="30" y="17" class="mono" font-size="12" fill="#1b123a" text-anchor="middle">HTML</text>
+    </g>
+    <!-- CSS Pill -->
+    <g transform="translate(85, 35)">
+      <rect width="50" height="26" rx="13" fill="#f0edf7" stroke="#7b1fa2" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="25" y="17" class="mono" font-size="12" fill="#1b123a" text-anchor="middle">CSS</text>
+    </g>
+    <!-- JS Pill -->
+    <g transform="translate(145, 35)">
+      <rect width="100" height="26" rx="13" fill="#f0edf7" stroke="#0288d1" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="50" y="17" class="mono" font-size="12" fill="#1b123a" text-anchor="middle">JavaScript</text>
+    </g>
+    <!-- React Pill -->
+    <g transform="translate(255, 35)">
+      <rect width="70" height="26" rx="13" fill="#f0edf7" stroke="#0288d1" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="35" y="17" class="mono" font-size="12" fill="#0288d1" text-anchor="middle">React</text>
+    </g>
+    <!-- Supabase Pill -->
+    <g transform="translate(335, 35)">
+      <rect width="90" height="26" rx="13" fill="#f0edf7" stroke="#d81b60" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="45" y="17" class="mono" font-size="12" fill="#1b123a" text-anchor="middle">Supabase</text>
+    </g>
+    <!-- Node.js Pill -->
+    <g transform="translate(15, 75)">
+      <rect width="80" height="26" rx="13" fill="#f0edf7" stroke="#7b1fa2" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="40" y="17" class="mono" font-size="12" fill="#1b123a" text-anchor="middle">Node.js</text>
+    </g>
+    <!-- Git Pill -->
+    <g transform="translate(105, 75)">
+      <rect width="50" height="26" rx="13" fill="#f0edf7" stroke="#d81b60" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="25" y="17" class="mono" font-size="12" fill="#1b123a" text-anchor="middle">Git</text>
+    </g>
+    <!-- GitHub Pill -->
+    <g transform="translate(165, 75)">
+      <rect width="75" height="26" rx="13" fill="#f0edf7" stroke="#0288d1" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="37" y="17" class="mono" font-size="12" fill="#1b123a" text-anchor="middle">GitHub</text>
+    </g>
+    <!-- AI Pill -->
+    <g transform="translate(250, 75)">
+      <rect width="50" height="26" rx="13" fill="#f0edf7" stroke="#d81b60" stroke-width="1" stroke-opacity="0.6"/>
+      <text x="25" y="17" class="mono" font-size="12" fill="#0288d1" text-anchor="middle">AI</text>
+    </g>
+  </g>
+
+  <!-- 7. Neon Status Indicator -->
+  <g transform="translate(65, 625)">
+    <circle cx="15" cy="15" r="6" class="status-pulse" />
+    <circle cx="15" cy="15" r="10" fill="none" stroke="#0288d1" stroke-width="1" opacity="0.4" class="status-pulse" />
+    <text x="35" y="21" class="mono" font-size="15" fill="#0288d1" font-weight="bold" letter-spacing="1">AVAILABLE TO BUILD</text>
+  </g>
+
+  <!-- ================= RIGHT PANEL ================= -->
+
+  <!-- 1. Code Editor Card -->
+  <g transform="translate(750, 60)">
+    <rect width="450" height="220" rx="10" fill="#f5f3fa" stroke="#7b1fa2" stroke-width="1" stroke-opacity="0.4" />
+    <!-- Header panel -->
+    <path d="M 0 10 A 10 10 0 0 1 10 0 L 440 0 A 10 10 0 0 1 450 10 L 450 30 L 0 30 Z" fill="#e2def0" />
+    <circle cx="20" cy="15" r="5" fill="#ff5f56" />
+    <circle cx="35" cy="15" r="5" fill="#ffbd2e" />
+    <circle cx="50" cy="15" r="5" fill="#27c93f" />
+    <text x="225" y="20" class="mono" font-size="12" fill="#665a90" text-anchor="middle">dreams.js</text>
+
+    <!-- Editor Lines -->
+    <g transform="translate(25, 55)" class="mono" font-size="14" font-weight="bold">
+      <!-- Line 1 -->
+      <g clip-path="url(#clip-code-1)">
+        <text x="0" y="15" fill="#d81b60">function <tspan fill="#0288d1">buildDreams</tspan>() {</text>
+      </g>
+      
+      <!-- Line 2 -->
+      <g clip-path="url(#clip-code-2)" transform="translate(0, 30)">
+        <text x="0" y="15" fill="#d81b60">    const <tspan fill="#1b123a">ideas = [</tspan><tspan fill="#7b1fa2">"code"</tspan><tspan fill="#1b123a">, </tspan><tspan fill="#7b1fa2">"learn"</tspan><tspan fill="#1b123a">, </tspan><tspan fill="#7b1fa2">"build"</tspan><tspan fill="#1b123a">];</tspan></text>
+      </g>
+
+      <!-- Line 3 -->
+      <g clip-path="url(#clip-code-3)" transform="translate(0, 60)">
+        <text x="0" y="15" fill="#d81b60">    return <tspan fill="#1b123a">ideas.</tspan><tspan fill="#0288d1">map</tspan><tspan fill="#1b123a">(idea => </tspan><tspan fill="#0288d1">create</tspan><tspan fill="#1b123a">(idea));</tspan></text>
+      </g>
+
+      <!-- Line 4 -->
+      <g clip-path="url(#clip-code-4)" transform="translate(0, 90)">
+        <text x="0" y="15" fill="#d81b60">}</text>
+      </g>
+
+      <!-- Blinking Code Cursor -->
+      <rect x="0" y="102" width="8" height="15" fill="#d81b60" class="cursor" />
+    </g>
+  </g>
+
+  <!-- 2. Hologram Character Area -->
+  <g transform="translate(795, 310)" class="holo-glow-container">
+    <!-- Outer hologram ring frame -->
+    <rect width="360" height="360" rx="180" fill="none" stroke="url(#neon-grad)" stroke-width="1.5" stroke-opacity="0.3" />
+    <rect x="10" y="10" width="340" height="340" rx="170" fill="#f5f3fa" stroke="#0288d1" stroke-width="1" stroke-opacity="0.1" />
+
+    <!-- Cyber circle accents -->
+    <circle cx="180" cy="180" r="160" fill="none" stroke="#0288d1" stroke-dasharray="10 20" stroke-width="1" stroke-opacity="0.3">
+      <animateTransform attributeName="transform" type="rotate" from="0 180 180" to="360 180 180" dur="20s" repeatCount="indefinite" />
+    </circle>
+    
+    <circle cx="180" cy="180" r="150" fill="none" stroke="#d81b60" stroke-dasharray="40 80" stroke-width="1" stroke-opacity="0.2">
+      <animateTransform attributeName="transform" type="rotate" from="360 180 180" to="0 180 180" dur="15s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Holographic Avatar Group with Mask -->
+    <g mask="url(#holo-reveal-mask)">
+      <!-- Placeholder Glowing Vector Silhouette -->
+      <g transform="translate(50, 40)">
+        <!-- Head -->
+        <circle cx="130" cy="90" r="45" fill="#e2def0" stroke="#0288d1" stroke-width="2" stroke-opacity="0.8" />
+        <path d="M 115 110 Q 130 115 145 110 Q 140 130 130 130 Q 120 130 115 110 Z" fill="#0288d1" opacity="0.3" />
+        <!-- Headset detail -->
+        <path d="M 85 90 A 45 45 0 0 1 175 90" fill="none" stroke="#d81b60" stroke-width="3" stroke-opacity="0.8" />
+        <rect x="80" y="82" width="10" height="16" rx="3" fill="#d81b60" />
+        <rect x="170" y="82" width="10" height="16" rx="3" fill="#d81b60" />
+        <!-- Body/Shoulders -->
+        <path d="M 40 260 Q 60 160 130 160 Q 200 160 220 260 Z" fill="#e2def0" stroke="#0288d1" stroke-width="2" stroke-opacity="0.8" />
+        <!-- Cybernetic chest lines -->
+        <path d="M 130 160 L 130 220 M 100 200 L 160 200 M 90 230 L 170 230" fill="none" stroke="#d81b60" stroke-width="1" stroke-opacity="0.5" />
+      </g>
+
+      <!-- Real Image Overlay - customizable by user -->
+      <image href="assets/rehan-character.png" x="40" y="40" width="280" height="280" opacity="0.9" />
+    </g>
+
+    <!-- Scanning line overlay -->
+    <g mask="url(#holo-reveal-mask)">
+      <!-- Initial scan sweep -->
+      <line x1="10" y1="0" x2="350" y2="0" stroke="#0288d1" stroke-width="2" opacity="0.8" class="scan-line" />
+      <!-- Continuous idle sweep -->
+      <line x1="20" y1="0" x2="340" y2="0" stroke="#d81b60" stroke-width="1" opacity="0.4" class="idle-scan" />
+    </g>
+
+    <!-- Holographic particles -->
+    <circle cx="100" cy="280" r="2" fill="#0288d1" class="particle" />
+    <circle cx="260" cy="270" r="1.5" fill="#d81b60" class="particle" style="animation-delay: -2s; animation-duration: 6s;" />
+    <circle cx="120" cy="120" r="2.5" fill="#0288d1" class="particle" style="animation-delay: -4s; animation-duration: 10s;" />
+    <circle cx="240" cy="100" r="2" fill="#d81b60" class="particle" style="animation-delay: -6s; animation-duration: 7s;" />
+  </g>
+</svg>
